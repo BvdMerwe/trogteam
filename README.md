@@ -202,12 +202,24 @@ This optimizes cost while maintaining quality at each layer.
 4. **Reusability** - Same skills work on any project with GUARDRAILS.md
 5. **Traceability** - All work tracked through beads
 
+## Prerequisites
+
+These skills work best when paired with the **superpowers** skill collection:
+
+```bash
+npx skills add obra/superpowers
+```
+
+**Recommended superpowers:**
+- `brainstorming` - Required by Product Owner for requirement gathering
+- `writing-plans` - Used by Tech Lead for implementation planning
+- `beads` - Task tracking system (required by all roles)
+
 ## Related Skills
 
-These skills work well with:
-- `brainstorming` - Used by PO for requirement gathering
-- `beads` - Task tracking system
-- `writing-plans` - For creating implementation plans (TL uses)
+Additional skills that complement this hierarchy:
+- `finding-tasks` - For breaking down large features
+- `requesting-code-review` - For structured code review workflows
 
 ## Contributing
 
