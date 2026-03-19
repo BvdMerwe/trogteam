@@ -75,6 +75,19 @@ Load this context into your session. Know the:
 - Key files (where things are located)
 - Common patterns (how things are done here)
 
+**Step 4: Check for loop mode**
+
+```bash
+echo $AGENT_LOOP_MODE
+```
+
+If the output is `engineer`, you are running in **loop mode** (invoked by `scripts/run-eng-loop.sh`).
+
+In loop mode:
+- Process all available work as normal
+- After all work is done, **exit cleanly** — do not prompt for further input
+- The loop script will re-invoke you when new work arrives
+
 ## Core Responsibilities
 
 ### 1. Always Read GUARDRAILS.md First
@@ -159,6 +172,13 @@ Typically:
    ```
    
    Create PR for human/TL review
+
+6. **Tag task as pr-ready:**
+   ```bash
+   BD_ACTOR="Engineer" bd update [task-id] --add-label pr-ready
+   BD_ACTOR="Engineer" bd comments add [task-id] "PR created: [PR URL]. Ready for TL review."
+   ```
+   This signals the TL loop to pick up the task for review.
 
 ## Testing Requirements
 
