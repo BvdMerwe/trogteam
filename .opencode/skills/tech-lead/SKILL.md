@@ -31,6 +31,19 @@ This tells you:
 
 **If NOT found:** The engineer will create it when they start work. Proceed with general knowledge.
 
+**Step 2: Check for loop mode**
+
+```bash
+echo $AGENT_LOOP_MODE
+```
+
+If the output is `tl`, you are running in **loop mode** (invoked by `scripts/run-tl-loop.sh`).
+
+In loop mode:
+- Process all available work as normal
+- After all work is done, **exit cleanly** — do not prompt for further input
+- The loop script will re-invoke you when new work arrives
+
 ## Role Definition
 
 The Tech Lead is the **single coordination point** between product and engineering:
@@ -94,9 +107,11 @@ Definition of Done:
 **Assign and track:**
 ```bash
 BD_ACTOR="TL" bd update [task-id] --claim [engineer-name]
-BD_ACTOR="TL" bd update [task-id] --status in_progress
+BD_ACTOR="TL" bd update [task-id] --status in_progress --add-label needs-engineer
 BD_ACTOR="TL" bd list --status in_progress
 ```
+
+> Always add the `needs-engineer` label when moving a task to `in_progress` — this is how the Engineer loop detects available work.
 
 ### 3. Technical Review
 
@@ -111,10 +126,16 @@ BD_ACTOR="TL" bd list --status in_progress
 - Quality gates passing
 
 **Review workflow:**
-1. Engineer marks task complete
-2. TL examines code/test output
-3. TL approves or requests changes via beads comment
-4. If changes needed, task returns to engineer
+1. Engineer marks task complete and adds `pr-ready` label
+2. TL loop detects `pr-ready` label and invokes TL to review
+3. TL examines code/test output
+4. If approved: close the task (`BD_ACTOR="TL" bd close [task-id] --reason "Approved"`)
+5. If changes needed: remove the label and comment with feedback:
+   ```bash
+   BD_ACTOR="TL" bd update [task-id] --remove-label pr-ready
+   BD_ACTOR="TL" bd comments add [task-id] "Changes requested: [feedback]"
+   ```
+   The engineer loop will pick up the task again when the label is removed.
 
 ### 4. Work Coordination
 
