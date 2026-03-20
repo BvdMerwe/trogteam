@@ -35,7 +35,7 @@ Set it on every feature task you create. No exceptions.
 - **Creates:** Clear specifications with acceptance criteria
 
 ### To Tech Lead (Downstream)
-- **Provides:** Feature specifications (spec documents)
+- **Provides:** Feature specifications (stored directly in beads)
 - **Creates:** High-level feature tracking in beads
 - **Defines:** User stories, success metrics, constraints
 
@@ -50,71 +50,55 @@ Set it on every feature task you create. No exceptions.
 2. **Ask clarifying questions** - One at a time
 3. **Propose approaches** - 2-3 options with trade-offs
 4. **Present design** - Get user approval section by section
-5. **Write spec doc** - Save to `docs/superpowers/specs/`
+5. **Write spec into beads** - Stored in the feature task itself (no separate file)
 
 **This is non-negotiable.** Never skip brainstorming for feature work.
 
 **Note:** If GUARDRAILS.md exists, you may reference technical constraints from it when discussing feasibility with the user.
 
-### 2. Create Feature Specifications
+### 2. Create Feature Specification in Beads
 
-**After brainstorming is complete, write:**
+The spec lives directly in the beads task. No separate files. Everything the TL needs is in the task itself.
 
-```markdown
-# Feature: [Feature Name]
+> **CRITICAL: The `needs-tl-review` label is how the TL agent detects your work.**
+> Without it, the TL loop will never pick up the feature. This label is not optional.
 
-## Problem Statement
+**Create the feature task with spec content inline:**
+
+```bash
+BD_ACTOR="PO" bd create "[Feature Name] - [Brief Description]" \
+  -t feature -p [1-3] \
+  --labels needs-tl-review \
+  --description "## Problem Statement
 [What problem does this solve?]
 
 ## User Stories
 - As a [user type], I want [goal] so that [benefit]
 
-## Acceptance Criteria
-- [ ] Criterion 1 (specific, testable)
-- [ ] Criterion 2 (specific, testable)
-
 ## Constraints
-- [ ] Technical constraints (if known)
-- [ ] Business/timeline constraints
+- [Technical or business constraints]
 
 ## Success Metrics
-- [ ] How will we know this is successful?
+- [How will we know this is successful?]
 
 ## Out of Scope
-- [ ] What is NOT included
+- [What is NOT included]" \
+  --acceptance "- [ ] Criterion 1 (specific, testable)
+- [ ] Criterion 2 (specific, testable)"
 ```
 
-**Save to:** `docs/superpowers/specs/YYYY-MM-DD-[feature-name]-design.md`
-
-### 3. Create Feature-Level Beads Tasks
-
-> **CRITICAL: The `needs-tl-review` label is how the TL agent detects your work.**
-> Without it, the TL loop will never pick up the feature. This label is not optional.
-
-**Create the feature task with the required label:**
+**Then comment to notify TL:**
 
 ```bash
-BD_ACTOR="PO" bd create "[Feature Name] - [Brief Description]" -t feature -p [1-3] --labels needs-tl-review
+BD_ACTOR="PO" bd comments add [task-id] "@TL - Feature spec ready for technical review and breakdown"
 ```
 
-**Update with spec details:**
-
-```bash
-BD_ACTOR="PO" bd comments add [task-id] "Feature spec complete: [path-to-spec]"
-```
-
-**Mention TL for handoff:**
-
-```bash
-BD_ACTOR="PO" bd comments add [task-id] "@TL - Ready for technical review and breakdown"
-```
-
-### 4. Handoff to Tech Lead
+### 3. Handoff to Tech Lead
 
 **The handoff includes:**
-1. Feature bead with link to spec document
-2. Clear comment tagging TL
-3. Any known constraints or dependencies
+1. Feature bead with full spec in `--description` and `--acceptance` fields
+2. `needs-tl-review` label set
+3. Comment tagging TL
 
 **TL then:**
 - Reviews spec for technical feasibility
@@ -126,7 +110,7 @@ BD_ACTOR="PO" bd comments add [task-id] "@TL - Ready for technical review and br
 - Revise acceptance criteria
 - Get user approval on changes
 
-### 5. Team Mode (Optional)
+### 4. Team Mode (Optional)
 
 After completing the beads handoff, offer to spin up the agent loops:
 
@@ -158,24 +142,23 @@ Either way, **remain in session** and await the next feature request.
 
 ### With Tech Lead
 - **All through beads only**
-- Create feature tasks
-- Comment with spec links
+- Create feature tasks with spec inline
 - No ad-hoc communication
 
-**Handoff template:**
+**Handoff comment template:**
 ```
-Feature ready for implementation.
+@TL - Feature spec ready for technical review.
 
-**Spec:** docs/superpowers/specs/2026-03-18-feature-name.md
 **Priority:** P[1-3]
 **User approved:** Yes
 
-Notes for TL:
+Notes:
 - [Any constraints or considerations]
 - [Dependencies on other work]
 - [Timeline expectations]
 
-@TL - Ready for technical review.
+Full spec is in the task description and acceptance criteria fields.
+Run: bd show [task-id] --long
 ```
 
 ## Escalation Rules
@@ -208,27 +191,34 @@ Notes for TL:
    - Discusses dashboard vs exports
    - Gets user approval on approach
 
-3. **PO writes spec:**
-   - `docs/superpowers/specs/2026-03-18-qr-analytics.md`
-   - User stories, acceptance criteria, metrics
-
-4. **PO creates feature bead:**
+3. **PO creates feature bead with spec inline:**
    ```bash
-   BD_ACTOR="PO" bd create "Add QR code analytics" -t feature -p 2 --labels needs-tl-review
+   BD_ACTOR="PO" bd create "Add QR code analytics" \
+     -t feature -p 2 \
+     --labels needs-tl-review \
+     --description "## Problem Statement
+   QR code owners have no visibility into how their codes are performing.
+
+   ## User Stories
+   - As a QR code owner, I want to see scan counts so I know if my campaign is working
+   - As a QR code owner, I want to export data so I can share it with stakeholders
+
+   ## Constraints
+   - Real-time updates not required
+   - Geographic data should be approximate (city-level)
+
+   ## Out of Scope
+   - Per-user tracking
+   - Historical data older than 1 year" \
+     --acceptance "- [ ] Views and click counts displayed per QR code
+   - [ ] Geographic distribution shown (city-level)
+   - [ ] CSV export available
+   - [ ] Data updates within 1 hour of scan"
    ```
 
-5. **PO hands off to TL:**
-   ```
-   @TL - Feature spec approved and ready.
-   
-   Spec: docs/superpowers/specs/2026-03-18-qr-analytics.md
-   
-   Key points:
-   - Views, clicks, geographic data needed
-   - Dashboard + CSV export
-   - Real-time updates not required
-   
-   Ready for technical breakdown.
+4. **PO notifies TL:**
+   ```bash
+   BD_ACTOR="PO" bd comments add [task-id] "@TL - Feature spec ready. Full spec in task description. Ready for technical breakdown."
    ```
 
 6. **TL picks up** and creates technical tasks
@@ -256,14 +246,17 @@ When a user requests a feature:
    - Ask questions
    - Propose approaches
    - Get approval
-   - Write spec
 
-3. **Create beads task:**
+3. **Create beads task with spec inline:**
    ```bash
-   BD_ACTOR="PO" bd create "[Feature] - [Description]" -t feature -p 2 --labels needs-tl-review
+   BD_ACTOR="PO" bd create "[Feature] - [Description]" \
+     -t feature -p 2 \
+     --labels needs-tl-review \
+     --description "[problem statement, user stories, constraints, out of scope]" \
+     --acceptance "[testable acceptance criteria]"
    ```
 
-4. **Hand off to TL**
+4. **Comment to notify TL and hand off**
 
 ## Related Skills
 

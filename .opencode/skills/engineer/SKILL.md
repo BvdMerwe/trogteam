@@ -324,13 +324,25 @@ cat GUARDRAILS.md
 
 **Step 4: Check available work**
 ```bash
-# Use task tracking system from GUARDRAILS.md
-bd ready  # or equivalent
+BD_ACTOR="Engineer" bd list --label-any needs-engineer --json
 ```
 
-**Step 5: Claim a task**
+**Step 5: Read the full task before starting**
+
+All requirements and implementation notes are in the task itself — no separate spec files.
+
 ```bash
-bd update [task-id] --claim
+bd show [task-id] --long
+```
+
+Look for:
+- `description` — technical context and implementation requirements
+- `acceptance` — definition of done (your checklist)
+- `design` — implementation plan from TL
+
+**Step 6: Claim the task**
+```bash
+BD_ACTOR="Engineer" bd update [task-id] --claim
 ```
 
 ## Related Skills

@@ -65,7 +65,7 @@ In loop mode:
 The Tech Lead is the **single coordination point** between product and engineering:
 
 ### From Product Owner (Upstream)
-- **Receives:** Feature specifications with acceptance criteria
+- **Receives:** Feature specifications stored directly in beads (description + acceptance fields)
 - **Provides:** Technical feasibility feedback
 - **Approves:** Specs for implementation
 
@@ -79,11 +79,19 @@ The Tech Lead is the **single coordination point** between product and engineeri
 
 ### 1. Technical Architecture Review
 
-When receiving a feature spec from PO:
-- Review for technical feasibility
-- Identify architectural concerns
-- Suggest simplifications
-- Approve or request changes
+When the TL loop detects a `needs-tl-review` task, read the full spec from beads:
+
+```bash
+BD_ACTOR="TL" bd show [task-id] --long
+```
+
+The spec is in the task's `description` and `acceptance` fields — no separate files.
+
+Review for:
+- Technical feasibility
+- Architectural concerns
+- Simplifications
+- Missing acceptance criteria
 
 **Decision points:**
 - Does this require new architecture?
@@ -92,33 +100,33 @@ When receiving a feature spec from PO:
 
 ### 2. Task Management
 
-**Create clear, actionable tasks:**
-```markdown
-Title: [Technical action] - [Component/Area]
+**Create clear, actionable tasks — all content stored in beads fields:**
 
-Technical Context:
+```bash
+BD_ACTOR="TL" bd create "[Technical action] - [Component/Area]" \
+  -t task \
+  --parent [feature-task-id] \
+  --description "## Technical Context
 - Parent feature: [Feature ID]
-- Architecture: [Pattern/decision reference]
-- Dependencies: [Other tasks if any]
+- Architecture: [pattern/decision]
+- Dependencies: [other tasks if any]
 
-Implementation Requirements:
+## Implementation Requirements
 - [ ] Specific technical requirement 1
 - [ ] Specific technical requirement 2
-- [ ] Follow existing patterns in [file/area]
-
-Testing Requirements:
+- [ ] Follow existing patterns in [file/area]" \
+  --acceptance "- [ ] Code implemented
 - [ ] Unit tests for [components]
 - [ ] Integration tests for [flows]
 - [ ] Error handling coverage
-- [ ] Edge cases tested
-
-Definition of Done:
-- [ ] Code implemented
 - [ ] All tests passing
-- [ ] Build succeeding
-- [ ] Lint passing
-- [ ] TL review approved
+- [ ] Build and lint passing
+- [ ] TL review approved" \
+  --design "## Implementation Plan
+[Step-by-step implementation notes, key decisions, file paths to touch]"
 ```
+
+The `--design` field is where you put the implementation plan. The engineer reads it from `bd show [task-id] --long`.
 
 **Assign and track:**
 
@@ -322,9 +330,9 @@ Example: feat(auth): add OAuth integration (#qrky-123)
    BD_ACTOR="TL" bd list --status open
    ```
 
-2. **Review PO specs** awaiting technical review
+2. **Review PO specs** awaiting technical review — read them with `bd show [task-id] --long`
 
-3. **Create tasks** from approved specs
+3. **Create tasks** from approved specs — store implementation plan in `--design` field
 
 4. **Assign work** to available engineers
 
