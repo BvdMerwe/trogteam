@@ -16,6 +16,17 @@ User Request → Product Owner → Tech Lead → Engineer(s)
 
 **Core Principle:** You own the "what" and "why" - not the "how". All handoffs go through beads.
 
+## Label Convention (CRITICAL)
+
+Beads labels are how agents find work. Without the correct label, the next agent's loop will never pick up the task.
+
+| You do this | Label to set | Who detects it |
+|-------------|--------------|----------------|
+| Create a feature task | `needs-tl-review` | TL loop |
+
+**You are responsible for one label: `needs-tl-review`.**
+Set it on every feature task you create. No exceptions.
+
 ## Role Definition
 
 ### From User (Upstream)
@@ -77,7 +88,10 @@ User Request → Product Owner → Tech Lead → Engineer(s)
 
 ### 3. Create Feature-Level Beads Tasks
 
-**Create tracking for TL visibility:**
+> **CRITICAL: The `needs-tl-review` label is how the TL agent detects your work.**
+> Without it, the TL loop will never pick up the feature. This label is not optional.
+
+**Create the feature task with the required label:**
 
 ```bash
 BD_ACTOR="PO" bd create "[Feature Name] - [Brief Description]" -t feature -p [1-3] --labels needs-tl-review

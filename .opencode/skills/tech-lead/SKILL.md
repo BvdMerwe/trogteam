@@ -11,6 +11,22 @@ User Request → Product Owner → Tech Lead → Engineer(s)
 
 **Core Principle:** All coordination happens through beads. Check GUARDRAILS.md for project-specific quality gates and patterns.
 
+## Label Convention (CRITICAL)
+
+Beads labels are how agents find work. Without the correct label, the next agent's loop will never pick up the task.
+
+| You do this | Label to set | Who detects it |
+|-------------|--------------|----------------|
+| Assign a task to Engineer | `needs-engineer` | Engineer loop |
+| Request changes on a PR | `needs-engineer` (re-add) | Engineer loop |
+| (remove when done reviewing) | ~~`pr-ready`~~ | — |
+
+**You are responsible for two labels:**
+1. Add `needs-engineer` every time you move a task to `in_progress`
+2. Remove `pr-ready` and re-add `needs-engineer` when requesting changes
+
+The Engineer loop only fires when it sees `needs-engineer`. If you forget it, the engineer waits forever.
+
 ## Session Start Protocol
 
 **Step 1: Check for GUARDRAILS.md**
@@ -105,13 +121,15 @@ Definition of Done:
 ```
 
 **Assign and track:**
+
+> **CRITICAL: You MUST add `--add-label needs-engineer` when setting status to `in_progress`.**
+> This is how the Engineer loop detects that work is ready. Omitting it means the engineer never gets the task.
+
 ```bash
 BD_ACTOR="TL" bd update [task-id] --claim [engineer-name]
 BD_ACTOR="TL" bd update [task-id] --status in_progress --add-label needs-engineer
 BD_ACTOR="TL" bd list --status in_progress
 ```
-
-> Always add the `needs-engineer` label when moving a task to `in_progress` — this is how the Engineer loop detects available work.
 
 ### 3. Technical Review
 

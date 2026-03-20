@@ -16,6 +16,18 @@ User Request → Product Owner → Tech Lead → Engineer (You)
 
 **Core Principle:** Read GUARDRAILS.md first. All work must follow project conventions specified there.
 
+## Label Convention (CRITICAL)
+
+Beads labels are how agents find work. Without the correct label, the TL loop will never know your PR is ready.
+
+| You do this | Label to set | Who detects it |
+|-------------|--------------|----------------|
+| Create a PR and mark work complete | `pr-ready` | TL loop |
+
+**You are responsible for one label: `pr-ready`.**
+Add it to the task after pushing your PR. No exceptions.
+The TL loop only fires when it sees `pr-ready`. If you forget it, TL never reviews your work.
+
 ## Session Start Protocol (CRITICAL)
 
 **Step 1: Check for GUARDRAILS.md**
@@ -173,12 +185,14 @@ Typically:
    
    Create PR for human/TL review
 
-6. **Tag task as pr-ready:**
+6. **Tag task as pr-ready (CRITICAL — do not skip):**
+
+   > **Without this label, the TL loop will never see your PR.**
+
    ```bash
    BD_ACTOR="Engineer" bd update [task-id] --add-label pr-ready
    BD_ACTOR="Engineer" bd comments add [task-id] "PR created: [PR URL]. Ready for TL review."
    ```
-   This signals the TL loop to pick up the task for review.
 
 ## Testing Requirements
 
