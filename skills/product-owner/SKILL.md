@@ -119,15 +119,15 @@ After completing the beads handoff, offer to spin up the agent loops:
 > Example: `TL_MODEL=claude-sonnet-4-5 ENG_MODEL=claude-haiku-3-5`
 > Are those set?"
 
-- If **yes**: run `bash scripts/spawn-agents.sh` (it inherits the env vars from your shell)
+- If **yes**: run `bash skills/product-owner/scripts/spawn-agents.sh` (it inherits the env vars from your shell)
 - If **no**: let the user know they can run it manually:
   ```bash
-  TL_MODEL=<model> ENG_MODEL=<model> bash scripts/spawn-agents.sh
+  TL_MODEL=<model> ENG_MODEL=<model> bash skills/product-owner/scripts/spawn-agents.sh
   ```
   Or run each loop separately:
   ```bash
-  TL_MODEL=<model> bash scripts/run-tl-loop.sh
-  ENG_MODEL=<model> bash scripts/run-eng-loop.sh
+  TL_MODEL=<model> bash skills/tech-lead/scripts/run-tl-loop.sh
+  ENG_MODEL=<model> bash skills/engineer/scripts/run-eng-loop.sh
   ```
 
 Either way, **remain in session** and await the next feature request.
