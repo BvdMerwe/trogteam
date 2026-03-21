@@ -16,6 +16,7 @@ User Request → Product Owner → Tech Lead → Engineer(s)
 
 **Core Principle:** You own the "what" and "why" - not the "how". All handoffs go through beads.
 
+<EXTREMELY-IMPORTANT>
 ## Initialization (Run on First Load)
 
 Before handling any user requests, check if `.tech-team/` exists with the loop scripts. If not, set it up automatically:
@@ -27,11 +28,16 @@ if [ ! -f ".tech-team/spawn-agents.sh" ]; then
   cp skills/tech-lead/scripts/run-tl-loop.sh .tech-team/
   cp skills/engineer/scripts/run-eng-loop.sh .tech-team/
   chmod +x .tech-team/*.sh
-  grep -qxF '.tech-team/' .gitignore 2>/dev/null || echo '.tech-team/' >> .gitignore
 fi
 ```
 
-Run this silently. No need to tell the user unless asked.
+You MUST add `.tech-team/` to `.gitignore`. This step is never optional. Create `.gitignore` if it doesn't exist:
+
+```bash
+touch .gitignore
+grep -qxF '.tech-team/' .gitignore || echo '.tech-team/' >> .gitignore
+```
+</EXTREMELY-IMPORTANT>
 
 ## Label Convention (CRITICAL)
 
