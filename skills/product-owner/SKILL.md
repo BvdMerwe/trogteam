@@ -112,22 +112,43 @@ BD_ACTOR="PO" bd comments add [task-id] "@TL - Feature spec ready for technical 
 
 ### 4. Team Mode (Optional)
 
-After completing the beads handoff, offer to spin up the agent loops:
+After completing the beads handoff, offer to spin up the agent loops.
+
+**First-time setup** — install agent scripts to `.tech-team/` (gitignored, project-local):
+
+```bash
+# One-time setup: install scripts to .tech-team/
+SKILL_BASE="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]:-$0}")")" && pwd)"
+if [ ! -f ".tech-team/spawn-agents.sh" ]; then
+  echo "Setting up .tech-team/..."
+  mkdir -p .tech-team
+  # Copy scripts from skill's installed location
+  [ -f "$SKILL_BASE/scripts/spawn-agents.sh" ] && cp "$SKILL_BASE/scripts/spawn-agents.sh" .tech-team/
+  [ -f "$SKILL_BASE/../tech-lead/scripts/run-tl-loop.sh" ] && cp "$SKILL_BASE/../tech-lead/scripts/run-tl-loop.sh" .tech-team/
+  [ -f "$SKILL_BASE/../engineer/scripts/run-eng-loop.sh" ] && cp "$SKILL_BASE/../engineer/scripts/run-eng-loop.sh" .tech-team/
+  chmod +x .tech-team/*.sh
+  # Add to .gitignore if not already there
+  grep -qxF '.tech-team/' .gitignore 2>/dev/null || echo '.tech-team/' >> .gitignore
+  echo "Done. Scripts installed to .tech-team/"
+fi
+```
+
+**After setup, offer to the user:**
 
 > "Want me to start the TL and Engineer agent loops so this gets worked on automatically?
 > This requires `TL_MODEL` and `ENG_MODEL` to be set in your environment.
 > Example: `TL_MODEL=claude-sonnet-4-5 ENG_MODEL=claude-haiku-3-5`
 > Are those set?"
 
-- If **yes**: run `bash skills/product-owner/scripts/spawn-agents.sh` (it inherits the env vars from your shell)
+- If **yes**: run `bash .tech-team/spawn-agents.sh` (it inherits the env vars from your shell)
 - If **no**: let the user know they can run it manually:
   ```bash
-  TL_MODEL=<model> ENG_MODEL=<model> bash skills/product-owner/scripts/spawn-agents.sh
+  TL_MODEL=<model> ENG_MODEL=<model> bash .tech-team/spawn-agents.sh
   ```
   Or run each loop separately:
   ```bash
-  TL_MODEL=<model> bash skills/tech-lead/scripts/run-tl-loop.sh
-  ENG_MODEL=<model> bash skills/engineer/scripts/run-eng-loop.sh
+  TL_MODEL=<model> bash .tech-team/run-tl-loop.sh
+  ENG_MODEL=<model> bash .tech-team/run-eng-loop.sh
   ```
 
 Either way, **remain in session** and await the next feature request.

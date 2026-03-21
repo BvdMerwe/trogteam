@@ -93,7 +93,7 @@ Load this context into your session. Know the:
 echo $AGENT_LOOP_MODE
 ```
 
-If the output is `engineer`, you are running in **loop mode** (invoked by `skills/engineer/scripts/run-eng-loop.sh`).
+If the output is `engineer`, you are running in **loop mode** (invoked by `.tech-team/run-eng-loop.sh`).
 
 In loop mode:
 - Process all available work as normal

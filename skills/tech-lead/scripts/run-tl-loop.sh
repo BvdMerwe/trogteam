@@ -2,13 +2,13 @@
 set -euo pipefail
 POLL_INTERVAL="${TL_POLL_INTERVAL:-30}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-REPO_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # TL_MODEL is required
 if [ -z "${TL_MODEL:-}" ]; then
   echo "Error: TL_MODEL env var is not set."
-  echo "Usage: TL_MODEL=<model-name> bash skills/tech-lead/scripts/run-tl-loop.sh"
-  echo "Example: TL_MODEL=claude-sonnet-4-5 bash skills/tech-lead/scripts/run-tl-loop.sh"
+  echo "Usage: TL_MODEL=<model-name> bash .tech-team/run-tl-loop.sh"
+  echo "Example: TL_MODEL=claude-sonnet-4-5 bash .tech-team/run-tl-loop.sh"
   exit 1
 fi
 
@@ -23,7 +23,7 @@ while true; do
   if [ -n "$TL_WORK" ]; then
     echo "[$(date '+%H:%M:%S')] TL work found. Invoking opencode..."
     cd "$REPO_DIR" && AGENT_LOOP_MODE=tl opencode run --model "$TL_MODEL" \
-      "You are the Tech Lead. Load the tech-lead skill from skills/tech-lead/SKILL.md. Check beads for work labelled needs-tl-review or pr-ready and process it. When all available work is done, exit."
+      "You are the Tech Lead. Load the tech-lead skill. Check beads for work labelled needs-tl-review or pr-ready and process it. When all available work is done, exit."
     echo "[$(date '+%H:%M:%S')] opencode session complete."
   else
     echo "[$(date '+%H:%M:%S')] No TL work found. Sleeping ${POLL_INTERVAL}s..."

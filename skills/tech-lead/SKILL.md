@@ -58,7 +58,7 @@ This tells you:
 echo $AGENT_LOOP_MODE
 ```
 
-If the output is `tl`, you are running in **loop mode** (invoked by `skills/tech-lead/scripts/run-tl-loop.sh`).
+If the output is `tl`, you are running in **loop mode** (invoked by `.tech-team/run-tl-loop.sh`).
 
 In loop mode:
 - Process all available work as normal

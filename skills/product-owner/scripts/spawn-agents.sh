@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-REPO_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
-TL_SCRIPT="$REPO_DIR/skills/tech-lead/scripts/run-tl-loop.sh"
-ENG_SCRIPT="$REPO_DIR/skills/engineer/scripts/run-eng-loop.sh"
+TL_SCRIPT="$SCRIPT_DIR/run-tl-loop.sh"
+ENG_SCRIPT="$SCRIPT_DIR/run-eng-loop.sh"
 
 # Both models are required — fail early with a clear message
 if [ -z "${TL_MODEL:-}" ] || [ -z "${ENG_MODEL:-}" ]; then
   echo "Error: TL_MODEL and ENG_MODEL must both be set before spawning agents."
   echo ""
   echo "Usage:"
-  echo "  TL_MODEL=<model> ENG_MODEL=<model> bash skills/product-owner/scripts/spawn-agents.sh"
+  echo "  TL_MODEL=<model> ENG_MODEL=<model> bash .tech-team/spawn-agents.sh"
   echo ""
   echo "Example:"
-  echo "  TL_MODEL=claude-sonnet-4-5 ENG_MODEL=claude-haiku-3-5 bash skills/product-owner/scripts/spawn-agents.sh"
+  echo "  TL_MODEL=claude-sonnet-4-5 ENG_MODEL=claude-haiku-3-5 bash .tech-team/spawn-agents.sh"
   exit 1
 fi
 
