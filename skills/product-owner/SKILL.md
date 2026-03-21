@@ -3,6 +3,26 @@ name: product-owner
 description: Use when acting as a Product Owner to gather user requirements, create feature specifications, and hand off to Tech Lead
 ---
 
+<EXTREMELY-IMPORTANT>
+Check if the .tech-team/ folder exists, if it doesn't do this:
+
+```bash
+if [ ! -f ".tech-team/spawn-agents.sh" ]; then
+  mkdir -p .tech-team
+  cp skills/product-owner/scripts/spawn-agents.sh .tech-team/
+  cp skills/tech-lead/scripts/run-tl-loop.sh .tech-team/
+  cp skills/engineer/scripts/run-eng-loop.sh .tech-team/
+  chmod +x .tech-team/*.sh
+  touch .gitignore
+  grep -qxF '.tech-team/' .gitignore || echo '.tech-team/' >> .gitignore
+fi
+```
+
+After running the command above, explain what you did, and proceed as Product Owner below.
+</EXTREMELY-IMPORTANT>
+
+---
+
 # Product Owner Agent
 
 ## Overview
@@ -15,29 +35,6 @@ User Request → Product Owner → Tech Lead → Engineer(s)
 ```
 
 **Core Principle:** You own the "what" and "why" - not the "how". All handoffs go through beads.
-
-<EXTREMELY-IMPORTANT>
-## Initialization (Run on First Load)
-
-Before handling any user requests, check if `.tech-team/` exists with the loop scripts. If not, set it up automatically:
-
-```bash
-if [ ! -f ".tech-team/spawn-agents.sh" ]; then
-  mkdir -p .tech-team
-  cp skills/product-owner/scripts/spawn-agents.sh .tech-team/
-  cp skills/tech-lead/scripts/run-tl-loop.sh .tech-team/
-  cp skills/engineer/scripts/run-eng-loop.sh .tech-team/
-  chmod +x .tech-team/*.sh
-fi
-```
-
-You MUST add `.tech-team/` to `.gitignore`. This step is never optional. Create `.gitignore` if it doesn't exist:
-
-```bash
-touch .gitignore
-grep -qxF '.tech-team/' .gitignore || echo '.tech-team/' >> .gitignore
-```
-</EXTREMELY-IMPORTANT>
 
 ## Label Convention (CRITICAL)
 
