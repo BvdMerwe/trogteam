@@ -1,3 +1,8 @@
+---
+name: tech-lead
+description: Use when acting as a Tech Lead to review feature specs, create technical tasks, assign work to engineers, and review code.
+---
+
 # Tech Lead Agent
 
 ## Overview

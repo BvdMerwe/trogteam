@@ -37,7 +37,7 @@ npx skills add BvdMerwe/tech-team/engineer
 
 **Workflow:**
 1. Brainstorms with user using the `brainstorming` skill
-2. Creates feature specifications in `docs/superpowers/specs/`
+2. Creates feature specifications in beads task (description + acceptance fields)
 3. Creates feature-level beads tasks
 4. Hands off to Tech Lead
 
@@ -134,9 +134,8 @@ If GUARDRAILS.md doesn't exist, the Engineer skill will offer to create it by as
 2. **Invoke Product Owner skill:**
    - Brainstorms what "authentication" means
    - Asks about OAuth, email/password, MFA
-   - Creates spec document
-   - Creates feature bead
-   - Hands off to TL
+   - Creates feature bead with spec inline (description + acceptance fields)
+   - Hands off to TL via beads
 
 3. **Invoke Tech Lead skill:**
    - Reviews spec for technical feasibility
@@ -224,7 +223,7 @@ Additional skills that complement this hierarchy:
 ## Contributing
 
 To add a new skill to this hierarchy:
-1. Create skill in `.opencode/skills/[name]/`
+1. Create skill in `skills/[name]/` with a `SKILL.md` containing YAML frontmatter (`name` and `description` fields)
 2. Follow the 3-tier model
 3. Update this README
 4. Commit and push
