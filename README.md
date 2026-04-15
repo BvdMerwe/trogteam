@@ -1,4 +1,4 @@
-# Tech Team Skills
+# Trogteam Skills
 
 Two-agent AI system for software projects. Simple. No complexity demon.
 
@@ -18,13 +18,13 @@ Both speak caveman in beads to save tokens.
 ## Install
 
 ```bash
-npx skills add BvdMerwe/tech-team
+npx skills add BvdMerwe/trogteam
 ```
 
 Or individually:
 ```bash
-npx skills add BvdMerwe/tech-team/grug
-npx skills add BvdMerwe/tech-team/grunk
+npx skills add BvdMerwe/trogteam/grug
+npx skills add BvdMerwe/trogteam/grunk
 ```
 
 Also install beads for task tracking:
