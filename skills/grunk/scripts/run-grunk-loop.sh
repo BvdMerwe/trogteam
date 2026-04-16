@@ -17,6 +17,6 @@ export AGENT_MODEL="$GRUNK_MODEL"
 export AGENT_LABEL="needs-grunk"
 export AGENT_LOOP_MODE="grunk"
 export POLL_INTERVAL="${GRUNK_POLL_INTERVAL:-30}"
-export AGENT_PROMPT="You are Grunk. Load the grunk skill. Check beads for work labelled needs-grunk and process it. When all available work is done, exit."
+export AGENT_PROMPT="You are Grunk. Load the grunk skill. Also load the caveman skill. Check beads for work labelled needs-grunk and process it. When all available work is done, exit."
 
 exec bash "$REPO_DIR/skills/grug/scripts/run-agent-loop.sh"
