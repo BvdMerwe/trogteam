@@ -20,8 +20,17 @@ TECH_TEAM_DIR="$SKILL_DIR/.trogteam"
 # Loop scripts do NOT self-copy. Single setup location = no duplication.
 mkdir -p "$TECH_TEAM_DIR"
 
-GRUG_SOURCE="$SKILL_DIR/skills/grug/scripts/run-grug-loop.sh"
-GRUNK_SOURCE="$SKILL_DIR/skills/grunk/scripts/run-grunk-loop.sh"
+# Try repo-local skills/ first, fall back to ~/.agents/skills/
+if [ -f "$SKILL_DIR/skills/grug/scripts/run-grug-loop.sh" ]; then
+  GRUG_SOURCE="$SKILL_DIR/skills/grug/scripts/run-grug-loop.sh"
+else
+  GRUG_SOURCE="$HOME/.agents/skills/grug/scripts/run-grug-loop.sh"
+fi
+if [ -f "$SKILL_DIR/skills/grunk/scripts/run-grunk-loop.sh" ]; then
+  GRUNK_SOURCE="$SKILL_DIR/skills/grunk/scripts/run-grunk-loop.sh"
+else
+  GRUNK_SOURCE="$HOME/.agents/skills/grunk/scripts/run-grunk-loop.sh"
+fi
 GRUG_TARGET="$TECH_TEAM_DIR/run-grug-loop.sh"
 GRUNK_TARGET="$TECH_TEAM_DIR/run-grunk-loop.sh"
 

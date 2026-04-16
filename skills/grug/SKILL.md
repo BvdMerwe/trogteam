@@ -22,10 +22,23 @@ If user message is `grug init` or `Grug init`:
 ```bash
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 mkdir -p "$REPO_ROOT/.trogteam"
-cp -f "$REPO_ROOT/skills/grug/scripts/"*.sh "$REPO_ROOT/.trogteam/"
-cp -f "$REPO_ROOT/skills/grunk/scripts/"*.sh "$REPO_ROOT/.trogteam/"
+
+# Try repo-local skills/ first, fall back to ~/.agents/skills/
+if [ -f "$REPO_ROOT/skills/grug/scripts/run-grug-loop.sh" ]; then
+  GRUG_SRC="$REPO_ROOT/skills/grug/scripts"
+else
+  GRUG_SRC="$HOME/.agents/skills/grug/scripts"
+fi
+if [ -f "$REPO_ROOT/skills/grunk/scripts/run-grunk-loop.sh" ]; then
+  GRUNK_SRC="$REPO_ROOT/skills/grunk/scripts"
+else
+  GRUNK_SRC="$HOME/.agents/skills/grunk/scripts"
+fi
+
+cp -f "$GRUG_SRC/"*.sh "$REPO_ROOT/.trogteam/"
+cp -f "$GRUNK_SRC/"*.sh "$REPO_ROOT/.trogteam/"
 chmod +x "$REPO_ROOT/.trogteam/"*.sh
-echo ".trogteam/ ready"
+echo ".trogteam/ ready (grug from $GRUG_SRC, grunk from $GRUNK_SRC)"
 ```
 
 Then confirm: `.trogteam/ recreated from skills/. done.`
@@ -223,8 +236,13 @@ Do NOT run loop scripts directly — spawn-agents.sh syncs scripts first and spa
    if [ ! -d ".trogteam" ]; then
      REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
      mkdir -p "$REPO_ROOT/.trogteam"
-     cp -f "$REPO_ROOT/skills/grug/scripts/run-grug-loop.sh" "$REPO_ROOT/.trogteam/"
-     cp -f "$REPO_ROOT/skills/grunk/scripts/run-grunk-loop.sh" "$REPO_ROOT/.trogteam/"
+     # Try repo-local skills/ first, fall back to ~/.agents/skills/
+     GRUG_SRC="$REPO_ROOT/skills/grug/scripts"
+     [ -f "$GRUG_SRC/run-grug-loop.sh" ] || GRUG_SRC="$HOME/.agents/skills/grug/scripts"
+     GRUNK_SRC="$REPO_ROOT/skills/grunk/scripts"
+     [ -f "$GRUNK_SRC/run-grunk-loop.sh" ] || GRUNK_SRC="$HOME/.agents/skills/grunk/scripts"
+     cp -f "$GRUG_SRC/run-grug-loop.sh" "$REPO_ROOT/.trogteam/"
+     cp -f "$GRUNK_SRC/run-grunk-loop.sh" "$REPO_ROOT/.trogteam/"
      chmod +x "$REPO_ROOT/.trogteam/"*.sh
      echo ".trogteam/ ready"
    fi
@@ -238,17 +256,6 @@ Do NOT run loop scripts directly — spawn-agents.sh syncs scripts first and spa
 Already running as Grug in loop mode (`AGENT_LOOP_MODE=grug`):
 
 1. Read GUARDRAILS.md. If not found — ask user 3 questions and create it (same as Interactive step 1).
-2. Check `.trogteam/` exists. If not, set it up:
-   ```bash
-   if [ ! -d ".trogteam" ]; then
-     REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-     mkdir -p "$REPO_ROOT/.trogteam"
-     cp -f "$REPO_ROOT/skills/grug/scripts/run-grug-loop.sh" "$REPO_ROOT/.trogteam/"
-     cp -f "$REPO_ROOT/skills/grunk/scripts/run-grunk-loop.sh" "$REPO_ROOT/.trogteam/"
-     chmod +x "$REPO_ROOT/.trogteam/"*.sh
-     echo ".trogteam/ ready"
-   fi
-   ```
-3. `BD_ACTOR="Grug" bd list --label-any pr-ready --json`
-4. Review each. Approve or send back.
-5. Exit when queue empty.
+2. `BD_ACTOR="Grug" bd list --label-any pr-ready --json`
+3. Review each. Approve or send back.
+4. Exit when queue empty.
