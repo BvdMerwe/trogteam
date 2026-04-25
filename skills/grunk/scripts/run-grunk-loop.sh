@@ -71,8 +71,8 @@ create_worktree() {
   git checkout main 2>/dev/null || git checkout master 2>/dev/null
   git pull origin main 2>/dev/null || true
 
-  # Create worktree with new branch
-  git worktree add "$worktree_path" -b "$branch_name"
+  # Create worktree with new branch (redirect to stderr so stdout stays clean for return value)
+  git worktree add "$worktree_path" -b "$branch_name" >&2
 
   # Track in state
   local state=$(get_state)
@@ -94,7 +94,7 @@ print(json.dumps(d, indent=2))
   # Run project setup if needed
   if [ -f "$worktree_path/package.json" ]; then
     log "Running npm install in $worktree_path"
-    npm install --prefix "$worktree_path" 2>&1 | tail -5
+    npm install --prefix "$worktree_path" >&2
   fi
 
   echo "$worktree_path"

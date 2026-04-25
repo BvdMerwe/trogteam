@@ -15,7 +15,8 @@ LOG_PREFIX="${LOG_PREFIX:-$LOCK_DIR/${AGENT_NAME_LOWER}-loop.log}"
 
 # Logging
 log() {
-  echo "[$(date '+%H:%M:%S')] $1" | tee -a "$LOG_PREFIX" 2>/dev/null || echo "[$(date '+%H:%M:%S')] $1"
+  echo "[$(date '+%H:%M:%S')] $1" | tee -a "$LOG_PREFIX" >/dev/null 2>/dev/null || true
+  echo "[$(date '+%H:%M:%S')] $1" >&2
 }
 
 # Server management
