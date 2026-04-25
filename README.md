@@ -51,6 +51,11 @@ Example:
 GRUG_MODEL=anthropic/claude-sonnet-4-5 GRUNK_MODEL=opencode/big-pickle bash skills/grug/scripts/spawn-agents.sh
 ```
 
+> 💡 Note: On macos, the spawn-agents script will spawn 3 terminal windows instead of the expected 2:
+> 1. The Grug loop.
+> 2. The Grunk loop.
+> 3. An empty terminal window that is opened as a quirk of using osascript.
+
 ### Use interactively (no loops)
 
 Invoke directly in opencode:
