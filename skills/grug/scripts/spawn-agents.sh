@@ -46,11 +46,12 @@ if [ ! -f "$GRUNK_SOURCE" ]; then
   exit 1
 fi
 
+# Always copy latest versions to .trogteam/ — keeps scripts up to date
 cp -f "$GRUG_SOURCE" "$GRUG_TARGET"
 cp -f "$GRUNK_SOURCE" "$GRUNK_TARGET"
 chmod +x "$GRUG_TARGET" "$GRUNK_TARGET"
 
-echo "Scripts synced from skills/ to .trogteam/"
+echo "Scripts updated from skills/"
 
 # Compute lock key same way loop scripts do
 LOCK_KEY=$(echo "$SKILL_DIR" | md5sum 2>/dev/null | cut -d' ' -f1 || echo "$SKILL_DIR" | md5 2>/dev/null || echo "$SKILL_DIR" | cksum | cut -d' ' -f1)
