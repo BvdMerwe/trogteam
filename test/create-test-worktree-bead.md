@@ -10,9 +10,9 @@ Run this command:
 BD_ACTOR="Grug" bd create "test worktree flow" \
   -t task -p 2 \
   --labels needs-grunk \
-  --description "test bead for worktree flow. grunk open branch, do trivial change, tag pr-ready. grug pick up, review, pretend merge, delete branch, close." \
+  --description "test bead for worktree flow. grunk open branch, do trivial change to test/TEST.md, tag pr-ready. grug pick up, review, pretend merge, delete branch, close." \
   --acceptance "- [ ] grunk open worktree branch grunk/[id]-test-worktree-flow
-- [ ] grunk make trivial commit (e.g. add comment to README)
+- [ ] grunk make trivial commit (e.g. add change to test/TEST.md)
 - [ ] grunk tag pr-ready
 - [ ] grug pick up, review, merge branch to main, delete branch, close bead"
 ```
