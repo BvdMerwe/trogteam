@@ -25,7 +25,7 @@ WORKTREE_DIR="$REPO_DIR/.worktrees"
 STATE_FILE="$WORKTREE_DIR/.tracked.json"
 
 # Source shared library
-source "$(dirname "$0")/../grug/scripts/agent-loop.lib.sh"
+source "$(dirname "$0")/agent-loop.lib.sh"
 
 # Initialize worktree directory
 init_worktrees() {

@@ -19,8 +19,8 @@ TROG_TEAM_DIR="$SKILL_DIR/.trogteam"
 mkdir -p "$TROG_TEAM_DIR"
 
 # Ensure directories are in .gitignore before loop scripts use them
-grep -q "^.worktrees/$" "$SKILL_DIR/.gitignore" 2>/dev/null || echo ".worktrees/" >> "$SKILL_DIR/.gitignore"
-grep -q "^.trogteam/$" "$SKILL_DIR/.gitignore" 2>/dev/null || echo ".trogteam/" >> "$SKILL_DIR/.gitignore"
+grep -q "^.worktrees$" "$SKILL_DIR/.gitignore" 2>/dev/null || echo ".worktrees" >> "$SKILL_DIR/.gitignore"
+grep -q "^.trogteam$" "$SKILL_DIR/.gitignore" 2>/dev/null || echo ".trogteam" >> "$SKILL_DIR/.gitignore"
 
 # Always copy latest versions to .trogteam/ — keeps scripts up to date
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
