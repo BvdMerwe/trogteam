@@ -157,7 +157,7 @@ main() {
       # Work in worktree directory
       WORK_DIR="$WORKTREE_PATH"
 
-      AGENT_PROMPT="You are Grunk. Load the grunk skill. You are working in a git worktree at $WORKTREE_PATH. Task: $TASK_ID - $TASK_TITLE. Check beads, implement, when done tag pr-ready AND remove needs-grunk in one command: BD_ACTOR=Grunk bd update $TASK_ID --add-label pr-ready --remove-label needs-grunk. Then exit. Do NOT cleanup the worktree when done - Grug will handle that after review."
+      AGENT_PROMPT="You are Grunk. Load the grunk skill. You are working in a git worktree at $WORKTREE_PATH. Task: $TASK_ID - $TASK_TITLE. Check beads, implement. Before tagging pr-ready: git add -A && git commit -m 'feat: [task]' && git push origin [branch]. If nothing to commit, skip commit but still push. Push failure blocks pr-ready. When push succeeds, tag pr-ready AND remove needs-grunk in one command: BD_ACTOR=Grunk bd update $TASK_ID --add-label pr-ready --remove-label needs-grunk. Then exit. Do NOT cleanup the worktree when done - Grug will handle that after review."
 
       run_agent "$TASK_ID" "$TASK_TITLE" "$AGENT_PROMPT"
 
