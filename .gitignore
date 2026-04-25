@@ -1,5 +1,5 @@
-.worktrees/
-# .trogteam/ added by spawn-agents.sh
+.worktrees
+.trogteam
 
 # Dolt database files (added by bd init)
 .dolt/
