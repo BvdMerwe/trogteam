@@ -16,3 +16,4 @@
 {"id":"int-5bafb400","kind":"field_change","created_at":"2026-04-25T20:36:01.187882Z","actor":"Grug","issue_id":"tech-team-z1w","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"grug approve"}}
 {"id":"int-6a33ab37","kind":"field_change","created_at":"2026-04-25T20:51:52.553864Z","actor":"Grug","issue_id":"tech-team-1ta","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"merged"}}
 {"id":"int-df3ec95d","kind":"field_change","created_at":"2026-04-25T21:31:26.423621Z","actor":"Grug","issue_id":"tech-team-78g","extra":{"field":"status","new_value":"closed","old_value":"open","reason":"session complete. all fixes shipped."}}
+{"id":"int-64465eae","kind":"field_change","created_at":"2026-04-25T23:23:25.965022Z","actor":"Grug","issue_id":"tech-team-04t","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"grug approve"}}
