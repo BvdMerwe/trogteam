@@ -111,6 +111,7 @@ GRUNK_BRANCH="$(git branch -r | grep "origin/grunk/${TASK_ID}-" | sed 's|.*origi
 
 if [ -n "$GRUNK_BRANCH" ]; then
   WORKTREE_PATH="/tmp/grug-merge-${TASK_ID}-$$"
+  GRUNK_WORKTREE="$REPO_ROOT/.worktrees/$(ls "$REPO_ROOT/.worktrees/" 2>/dev/null | grep "^${TASK_ID}-" | head -1)"
   git fetch origin
   git worktree add "$WORKTREE_PATH" main
   cd "$WORKTREE_PATH"
@@ -118,8 +119,15 @@ if [ -n "$GRUNK_BRANCH" ]; then
   if git merge --no-ff "origin/${GRUNK_BRANCH}" -m "merge: ${GRUNK_BRANCH} into main (#${TASK_ID})"; then
     git push origin main
     cd "$REPO_ROOT"
+    # Clean up grug temp worktree
     git worktree remove --force "$WORKTREE_PATH"
-    BD_ACTOR="Grug" bd comments add "$TASK_ID" "grug review. look good. no complexity demon. branch ${GRUNK_BRANCH} merged to main. ship."
+    # Clean up grunk worktree (must remove worktree before deleting branch)
+    if [ -d "$GRUNK_WORKTREE" ]; then
+      git worktree remove --force "$GRUNK_WORKTREE"
+    fi
+    git branch -d "$GRUNK_BRANCH" 2>/dev/null || git branch -D "$GRUNK_BRANCH" 2>/dev/null || true
+    git push origin --delete "$GRUNK_BRANCH" 2>/dev/null || true
+    BD_ACTOR="Grug" bd comments add "$TASK_ID" "grug review. look good. no complexity demon. branch ${GRUNK_BRANCH} merged to main. worktree cleaned. ship."
     BD_ACTOR="Grug" bd close "$TASK_ID" --reason "grug approve"
   else
     # Conflict — abort, clean up, comment, do NOT close
