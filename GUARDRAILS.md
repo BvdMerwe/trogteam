@@ -1,5 +1,14 @@
 # Project Guardrails - trogteam
 
+## Important
+
+This repo is the source for trogteam skills. When changing skills or scripts, think like a *user* installing these skills — not a developer inside this repo.
+
+Key rules:
+1. Scripts run from the user's repo root, not from inside trogteam or the skill folder.
+2. Skills install to `~/.agents/skills/*` (global) or `REPO_DIR/.agents/skills/*` (per-project).
+3. Any script a user needs to run must be copied to `REPO_DIR/.trogteam/` first — grug and grunk execute scripts from `.trogteam/` in the user's repo.
+
 ## Tech Stack
 - Language: Bash scripts, Markdown
 - Task Tracking: beads (Dolt-powered issue tracker)
